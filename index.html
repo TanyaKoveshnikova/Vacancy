@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Динамическая модель компетенций</title>
+
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="bootstrap-select.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="jquery.js"></script>
+    <script src="bootstrap.js"></script>
+    <script src="bootstrap-select.js"></script>
+
+    <!-- <script src="plotly.js"></script> -->
+    <script src="plotly-basic.js"></script>
+    <script src="d3-dsv.js"></script>
+    <script src="dat.gui.js"></script>
+    <script src="d3-quadtree.js"></script>
+    <script src="d3-force.js"></script>
+    <script src="force-graph.js"></script>
+
+    <script src="data.js"></script>
+  </head>
+  <body>
+    <div class="content">
+  	  <script src="data_plot.js"></script>
+
+      <div class="header"><img src="img/UrFULogo_Full_Russian.png" class="logo"/><h1>Динамическая модель компетенций</h1></div>
+
+    	<h2>Конструктор динамической модели компетенций цифровой экономики</h2>
+
+    	<p>Конструктор динамической модели предназначен для актуализации и формирования новых образовательных программ в соответствии с содержанием профессиональных стандартов на основании востребованных рынком компетенций цифровой экономики.</p>
+  	  <p>Конструктор динамической модели предназначен для формирования (корректировки) как образовательных программ ВУЗов, так и самостоятельно устанавливаемых образовательных стандартов высшего образования (СУОС ВО) в соответствии с востребованными компетенциями цифровой экономики.</p>
+  	  <p>На основе собранных данных университет совместно с участниками рынка разрабатывает динамическую модель компетенций. Используя конструктор динамической модели, руководители образовательных программ университета смогут строить карты компетенций для конкретных направлений подготовки СУОС и образовательных программ, которые также обновляются в соответствии с изменениями в динамической модели компетенций.</p>
+
+  	  <div class="select_item">
+        <label for="prof_select"><strong>Выберите профессиональный стандарт:</strong></label>
+        <select class="selectpicker" id="prof_select" onchange="update_prof_functions()" data-width="50%"></select>
+      </div>
+
+  	  <div class="select_item">
+        <label for="func_select"><strong>Выберите трудовые функции:</strong></label>
+        <select class="selectpicker" id="func_select" onchange="update_prof_details()" multiple data-actions-box="true" data-width="50%"></select>
+      </div>
+
+      <div class="select_item">
+        <label for="skillgroup_select"><strong>Выберите группы умений:</strong></label>
+        <select class="selectpicker" id="skillgroup_select" onchange="update_skillgroup_details()" multiple data-actions-box="true" data-width="50%"></select>
+      </div>
+
+      <div id="skill_groups"></div>
+      <div id="prof_details"></div>
+
+      <h2>Граф совстречаемости</h2>
+      <div class="select_item">
+        <label for="graphskills_select"><strong>Выберите подмножество групп умений:</strong></label>
+        <select class="selectpicker" id="graphskills_select" onchange="update_graphskills_details()" multiple data-actions-box="true" data-width="50%"></select>
+      </div>
+
+      <div>
+        <label for="graphskills_verbosity_toolbar"><strong>Степень подробности графа:</strong></label>
+        <div class="btn-group btn-group-toggle" id="graphskills_verbosity_toolbar" data-toggle="buttons"></div>
+      </div>
+      <div id="graph_details"></div>
+    </div>
+
+  <script>
+
+    for (prof_code of prof_codes) {
+      var prof_desc = prof_names[prof_code]
+      console.log(prof_code, prof_desc)
+      $("#prof_select").append($("<option></option>").attr("value", prof_code)
+        .attr("data-subtext", total_vacancies[prof_desc[1]].toString().replace(/(.)(?=(\d{3})+$)/g,'$1 ')).text(prof_desc[0]))
+    }
+
+    init_skillgroup_details()
+    init_graph()
+    update_prof_functions()
+    update_skillgroup_details()
+
+  </script>
+  </body>
+</html>
